@@ -1,0 +1,225 @@
+<html>
+
+<p style="font-size:160%"><b><em>Final Grade Calculator</em></b></p>
+<b>Use the drop down menus to select the indicated grade and then "click" SUBMIT:</b>
+<br>
+
+<form id="gradeform" onsubmit="gradeCalculator()">
+
+<div style="position: fixed; top:260px; left: 285px"> <!-- move the submit button to where I want it -->
+	<input type="submit">
+</div>
+
+</form>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 1
+<select name="quarter1" form="gradeform" id="quarter1">
+	<option value="None"> </option>
+	<option value="A+">A+</option>
+	<option value="A">A</option>
+	<option value="A-">A-</option>
+	<option value="B+">B+</option>
+	<option value="B">B</option>
+	<option value="B-">B-</option>
+	<option value="C+">C+</option>
+	<option value="C">C</option>
+	<option value="C-">C-</option>
+	<option value="D+">D+</option>
+	<option value="D">D</option>
+	<option value="D-">D-</option>
+	<option value="F">F</option>
+</select>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 2
+<select name="quarter2" form="gradeform" id="quarter2">
+	<option value="None"> </option>
+	<option value="A+">A+</option>
+	<option value="A">A</option>
+	<option value="A-">A-</option>
+	<option value="B+">B+</option>
+	<option value="B">B</option>
+	<option value="B-">B-</option>
+	<option value="C+">C+</option>
+	<option value="C">C</option>
+	<option value="C-">C-</option>
+	<option value="D+">D+</option>
+	<option value="D">D</option>
+	<option value="D-">D-</option>
+	<option value="F">F</option>
+</select>
+
+&nbsp;&nbsp;&nbsp;&nbsp;First Semester Exam  (Midterm/Final depending on course);
+<select name="MX" form="gradeform"  id="midterm">
+	<option value="None"> </option>
+	<option value="A+">A+</option>
+	<option value="A">A</option>
+	<option value="A-">A-</option>
+	<option value="B+">B+</option>
+	<option value="B">B</option>
+	<option value="B-">B-</option>
+	<option value="C+">C+</option>
+	<option value="C">C</option>
+	<option value="C-">C-</option>
+	<option value="D+">D+</option>
+	<option value="D">D</option>
+	<option value="D-">D-</option>
+	<option value="F">F</option>
+	<option value="NA">No Exam</option>
+</select>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 3
+<select name="quarter3" form="gradeform" id="quarter3">
+	<option value="None"> </option>
+	<option value="A+">A+</option>
+	<option value="A">A</option>
+	<option value="A-">A-</option>
+	<option value="B+">B+</option>
+	<option value="B">B</option>
+	<option value="B-">B-</option>
+	<option value="C+">C+</option>
+	<option value="C">C</option>
+	<option value="C-">C-</option>
+	<option value="D+">D+</option>
+	<option value="D">D</option>
+	<option value="D-">D-</option>
+	<option value="F">F</option>
+
+</select>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 4 <!-- &nbsp is a non-breaking space.  Poor man's formatting -->
+<select name="quarter4" form="gradeform" id="quarter4">
+	<option value="None"> </option>
+	<option value="A+">A+</option>
+	<option value="A">A</option>
+	<option value="A-">A-</option>
+	<option value="B+">B+</option>
+	<option value="B">B</option>
+	<option value="B-">B-</option>
+	<option value="C+">C+</option>
+	<option value="C">C</option>
+	<option value="C-">C-</option>
+	<option value="D+">D+</option>
+	<option value="D">D</option>
+	<option value="D-">D-</option>
+	<option value="F">F</option>
+</select>
+
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Second Semester Exam (Final)
+<select name="FX" form="gradeform" id="final">
+	<option value="None"> </option>
+	<option value="A+">A+</option>
+	<option value="A">A</option>
+	<option value="A-">A-</option>
+	<option value="B+">B+</option>
+	<option value="B">B</option>
+	<option value="B-">B-</option>
+	<option value="C+">C+</option>
+	<option value="C">C</option>
+	<option value="C-">C-</option>
+	<option value="D+">D+</option>
+	<option value="D">D</option>
+	<option value="D-">D-</option>
+	<option value="F">F</option>
+	<option value="NA">No Exam</option>
+</select>
+
+<p id="demo">Grade:</p>
+
+
+
+<script>
+function gradeCalculator(){ // this is called on submit, when the user has entered their grade choices
+	var MP1=document.getElementById('quarter1');
+	var MP2=document.getElementById('quarter2');
+	var MX=document.getElementById('midterm');
+	var MP3=document.getElementById('quarter3');
+	var MP4=document.getElementById('quarter4');
+	var FX=document.getElementById('final');
+	// var calculatedGrade=document.getElementById("CourseGrade");
+
+
+if (((MP3.value=="None")&&(MP4.value=="None")&&(FX.value=="None")) ||
+	((MP1.value=="None")&&(MP2.value=="None")&&(MX.value=="None")))
+	{
+ 	if (MP3.value=="None"){MP1grade=convertLetterToNumberGrade(MP1);console.log(MP1grade);
+	MP2grade=convertLetterToNumberGrade(MP2);console.log(MP2grade);
+	MXgrade=convertLetterToNumberGrade(MX);}
+	else{
+	MP1grade=convertLetterToNumberGrade(MP3);console.log(MP1grade);
+	MP2grade=convertLetterToNumberGrade(MP4);console.log(MP2grade);
+	MXgrade=convertLetterToNumberGrade(FX);}
+
+	courseGrade=.4*(MP1grade+MP2grade)+.2*MXgrade;
+	console.log(courseGrade, courseGrade*100);
+	courseGrade = (Math.round(courseGrade*100))/100;
+	console.log(courseGrade);
+	courseLetterGrade=convertNumberToLetterGrade(courseGrade);
+
+	myGrade="Semester course grade:  "+courseGrade.toFixed(2)+"   or   "+courseLetterGrade;
+
+	}
+else{
+	MP1grade=convertLetterToNumberGrade(MP1);console.log(MP1grade);
+	MP2grade=convertLetterToNumberGrade(MP2);console.log(MP2grade);
+	MP3grade=convertLetterToNumberGrade(MP3);console.log(MP3grade);
+	MP4grade=convertLetterToNumberGrade(MP4);console.log(MP4grade);
+	MXgrade=convertLetterToNumberGrade(MX);console.log(MXgrade);
+
+	if (FX.value == "NA"){FXgrade=MXgrade;}
+	else {FXgrade=convertLetterToNumberGrade(FX); console.log(FXgrade);}
+
+	courseGrade=.2*(MP1grade+MP2grade+MP3grade+MP4grade)+.1*MXgrade+.1*FXgrade;
+	console.log(courseGrade, courseGrade*100);
+	courseGrade = (Math.round(courseGrade*100))/100;
+	console.log(courseGrade);
+
+	courseLetterGrade = convertNumberToLetterGrade(courseGrade);
+	myGrade="Full Year course grade:  "+courseGrade.toFixed(2)+"   or   "+courseLetterGrade;
+
+}
+window.alert(myGrade);
+document.getElementById("demo").innerHTML = myGrade;
+document.write(myGrade);
+}
+
+function convertLetterToNumberGrade(GB){
+	if (GB.value == "A+") {GBgrade=4.33;}
+	else if (GB.value == "A") {GBgrade=4;}
+	else if (GB.value == "A-") {GBgrade=3.67;}
+	else if (GB.value == "B+") {GBgrade=3.33;}
+	else if (GB.value == "B") {GBgrade=3;}
+	else if (GB.value == "B-") {GBgrade=2.67;}
+	else if (GB.value == "C+") {GBgrade=2.33;}
+	else if (GB.value == "C") {GBgrade=2;}
+	else if (GB.value == "C-") {GBgrade=1.7;}
+	else if (GB.value == "D+") {GBgrade=1.33;}
+	else if (GB.value == "D") {GBgrade=1;}
+	else if (GB.value == "D-") {GBgrade=0.67;}
+	else GBgrade=0;
+	return GBgrade;
+}
+
+function convertNumberToLetterGrade(cG){
+	if (cG>=4.17){cLG="A+";}
+	else if (cG>=3.83){cLG="A";}
+	else if (cG>=3.5){cLG="A-";}
+	else if (cG>=3.17){cLG="B+";}
+	else if (cG>=2.83){cLG="B";}
+	else if (cG>=2.5){cLG="B-";}
+	else if (cG>=2.17){cLG="C+";}
+	else if (cG>=1.83){cLG="C";}
+	else if (cG>=1.5){cLG="C-";}
+	else if (cG>=1.17){cLG="D+";}
+	else if (cG>=0.83){cLG="D";}
+	else if (cG>=0.67){cLG="D-";}
+	else {cLG="F";}
+
+	return (cLG);
+}
+</script>
+
+
+</html>

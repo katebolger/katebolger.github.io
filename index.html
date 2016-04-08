@@ -1,225 +1,281 @@
+<! DOCTYPE html >
+
+<!-- Course grade calculator written by Kate Bolger, May 2015
+Version 1.5707
+
+Updated April 2016:  Rounding error on grades at the margin.  Used Math.round( ) method after moving decimal place 2 places, then moved decimal back.  Looks to be working OK!
+
+
+Full Year Course Grade:  20% per quarter, 10% for midterm, 10% for final
+						No final exam?  Midterm is jacked up to 20%
+
+Semester Course Grade:	40% per quarter, 20% for final
+						No final?  Grade splits 50/50 for two quarters
+						To enter a semester grade, leave one row blank
+
+Uses GHS conversion from letter grade to 4.0 scale, from school handbook.  Rounds to two digits.
+ -->
+
 <html>
+<head>
+	<style>
+	    fieldset{width: 700px;
+	    		height: 250px;
+	    		border-style: ridge;
+	    		border-width: 5px 5px 5px 5px;}  /*sets the box for the form*/
+	    legend{font-size: 20px;
+	    		font-family: Verdana;} /*sets the font for the legend label*/
 
-<p style="font-size:160%"><b><em>Final Grade Calculator</em></b></p>
-<b>Use the drop down menus to select the indicated grade and then "click" SUBMIT:</b>
-<br>
+		fieldset p {clear: both;
+					padding: 5px;}
 
-<form id="gradeform" onsubmit="gradeCalculator()">
+		select {
+			    padding:3px;
+			    margin: 0;
+			    border-radius:4px;
+			    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+			    background: black;
+			    color:#FF3333;
+			    border:none;
+			    outline:none;
+			    display: inline-block;
+			    font-weight: bold;
+			    font-size: 20px;
+				cursor:pointer;}
 
-<div style="position: fixed; top:260px; left: 285px"> <!-- move the submit button to where I want it -->
-	<input type="submit">
-</div>
+		option	{font-family: Verdana;}
+	</style>
+</head>
 
-</form>
+<body>
+	<br>
+	<p style="font-size:160%; font-family:verdana"><b><em>Course Grade Calculator</em></b></p>
+	<p style="font-family: Verdana"><b>Use the drop down menus to select the indicated grades and then click "Calculate Grade."</b>
+	<em><br><br>Use "Clear All Grades" to refresh the page and reset <u>all</u> grades    <b>or</b><br>   just change some grades and click "Calculate Grade" again. 
+	<br><br>
+	Semester Course?  Enter grades <u>only</u> for that semester.  Leave all other grades blank.</em></p>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 1
-<select name="quarter1" form="gradeform" id="quarter1">
-	<option value="None"> </option>
-	<option value="A+">A+</option>
-	<option value="A">A</option>
-	<option value="A-">A-</option>
-	<option value="B+">B+</option>
-	<option value="B">B</option>
-	<option value="B-">B-</option>
-	<option value="C+">C+</option>
-	<option value="C">C</option>
-	<option value="C-">C-</option>
-	<option value="D+">D+</option>
-	<option value="D">D</option>
-	<option value="D-">D-</option>
-	<option value="F">F</option>
-</select>
+	<form id="gradeform"; style="font:verdana">
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 2
-<select name="quarter2" form="gradeform" id="quarter2">
-	<option value="None"> </option>
-	<option value="A+">A+</option>
-	<option value="A">A</option>
-	<option value="A-">A-</option>
-	<option value="B+">B+</option>
-	<option value="B">B</option>
-	<option value="B-">B-</option>
-	<option value="C+">C+</option>
-	<option value="C">C</option>
-	<option value="C-">C-</option>
-	<option value="D+">D+</option>
-	<option value="D">D</option>
-	<option value="D-">D-</option>
-	<option value="F">F</option>
-</select>
+	<fieldset><!-- fieldset creates a box around the form -->
+		<legend>Grade Table</legend> <!-- legend creates a name for the form -->
+		<div style="color:red; font-size: 120%; position: fixed; top:377px; left: 24px; font-family: Verdana"><!--   this sets the style for the grade output -->
+			<p id="printGrade"></p> <!-- printGrade is the text that contains the grade (set in JavaScript) -->
+		</div>
 
-&nbsp;&nbsp;&nbsp;&nbsp;First Semester Exam  (Midterm/Final depending on course);
-<select name="MX" form="gradeform"  id="midterm">
-	<option value="None"> </option>
-	<option value="A+">A+</option>
-	<option value="A">A</option>
-	<option value="A-">A-</option>
-	<option value="B+">B+</option>
-	<option value="B">B</option>
-	<option value="B-">B-</option>
-	<option value="C+">C+</option>
-	<option value="C">C</option>
-	<option value="C-">C-</option>
-	<option value="D+">D+</option>
-	<option value="D">D</option>
-	<option value="D-">D-</option>
-	<option value="F">F</option>
-	<option value="NA">No Exam</option>
-</select>
+	<!-- What's next is all the HTML code for the "buttons" that have the grades in them (selectors) -->
 
+		<p style="font-family: Arial; font-weight: bold">Quarter 1
+		<select name="quarter1" form="gradeform" id="quarter1">
+			<option value="None"> </option>
+			<option value="A+">A+</option>
+			<option value="A">A</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B">B</option>
+			<option value="B-">B-</option>
+			<option value="C+">C+</option>
+			<option value="C">C</option>
+			<option value="C-">C-</option>
+			<option value="D+">D+</option>
+			<option value="D">D</option>
+			<option value="D-">D-</option>
+			<option value="F">F</option>
+		</select>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 3
-<select name="quarter3" form="gradeform" id="quarter3">
-	<option value="None"> </option>
-	<option value="A+">A+</option>
-	<option value="A">A</option>
-	<option value="A-">A-</option>
-	<option value="B+">B+</option>
-	<option value="B">B</option>
-	<option value="B-">B-</option>
-	<option value="C+">C+</option>
-	<option value="C">C</option>
-	<option value="C-">C-</option>
-	<option value="D+">D+</option>
-	<option value="D">D</option>
-	<option value="D-">D-</option>
-	<option value="F">F</option>
+		Quarter 2
+		<select name="quarter2" form="gradeform" id="quarter2">
+			<option value="None"> </option>
+			<option value="A+">A+</option>
+			<option value="A">A</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B">B</option>
+			<option value="B-">B-</option>
+			<option value="C+">C+</option>
+			<option value="C">C</option>
+			<option value="C-">C-</option>
+			<option value="D+">D+</option>
+			<option value="D">D</option>
+			<option value="D-">D-</option>
+			<option value="F">F</option>
+		</select>
 
-</select>
+		1st Semester Exam <em>(Midterm/Final)</em>
+		<select name="MX" form="gradeform"  id="midterm">
+			<option value="None"> </option>
+			<option value="A+">A+</option>
+			<option value="A">A</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B">B</option>
+			<option value="B-">B-</option>
+			<option value="C+">C+</option>
+			<option value="C">C</option>
+			<option value="C-">C-</option>
+			<option value="D+">D+</option>
+			<option value="D">D</option>
+			<option value="D-">D-</option>
+			<option value="F">F</option>
+			<option value="NA">No Exam</option>
+		</select>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quarter 4 <!-- &nbsp is a non-breaking space.  Poor man's formatting -->
-<select name="quarter4" form="gradeform" id="quarter4">
-	<option value="None"> </option>
-	<option value="A+">A+</option>
-	<option value="A">A</option>
-	<option value="A-">A-</option>
-	<option value="B+">B+</option>
-	<option value="B">B</option>
-	<option value="B-">B-</option>
-	<option value="C+">C+</option>
-	<option value="C">C</option>
-	<option value="C-">C-</option>
-	<option value="D+">D+</option>
-	<option value="D">D</option>
-	<option value="D-">D-</option>
-	<option value="F">F</option>
-</select>
+		<p style="font-family: Arial; font-weight: bold">Quarter 3
+		<select name="quarter3" form="gradeform" id="quarter3">
+			<option value="None"> </option>
+			<option value="A+">A+</option>
+			<option value="A">A</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B">B</option>
+			<option value="B-">B-</option>
+			<option value="C+">C+</option>
+			<option value="C">C</option>
+			<option value="C-">C-</option>
+			<option value="D+">D+</option>
+			<option value="D">D</option>
+			<option value="D-">D-</option>
+			<option value="F">F</option>
+		</select>
 
+		Quarter 4 <!-- &nbsp is a non-breaking space.  Poor man's formatting -->
+		<select name="quarter4" form="gradeform" id="quarter4">
+			<option value="None"> </option>
+			<option value="A+">A+</option>
+			<option value="A">A</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B">B</option>
+			<option value="B-">B-</option>
+			<option value="C+">C+</option>
+			<option value="C">C</option>
+			<option value="C-">C-</option>
+			<option value="D+">D+</option>
+			<option value="D">D</option>
+			<option value="D-">D-</option>
+			<option value="F">F</option>
+		</select>
 
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Second Semester Exam (Final)
-<select name="FX" form="gradeform" id="final">
-	<option value="None"> </option>
-	<option value="A+">A+</option>
-	<option value="A">A</option>
-	<option value="A-">A-</option>
-	<option value="B+">B+</option>
-	<option value="B">B</option>
-	<option value="B-">B-</option>
-	<option value="C+">C+</option>
-	<option value="C">C</option>
-	<option value="C-">C-</option>
-	<option value="D+">D+</option>
-	<option value="D">D</option>
-	<option value="D-">D-</option>
-	<option value="F">F</option>
-	<option value="NA">No Exam</option>
-</select>
-
-<p id="demo">Grade:</p>
-
-
-
-<script>
-function gradeCalculator(){ // this is called on submit, when the user has entered their grade choices
-	var MP1=document.getElementById('quarter1');
-	var MP2=document.getElementById('quarter2');
-	var MX=document.getElementById('midterm');
-	var MP3=document.getElementById('quarter3');
-	var MP4=document.getElementById('quarter4');
-	var FX=document.getElementById('final');
-	// var calculatedGrade=document.getElementById("CourseGrade");
+		2nd Semester Exam<em> (Final)</em>
+		<select name="FX" form="gradeform" id="final">
+			<option value="None"> </option>
+			<option value="A+">A+</option>
+			<option value="A">A</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B">B</option>
+			<option value="B-">B-</option>
+			<option value="C+">C+</option>
+			<option value="C">C</option>
+			<option value="C-">C-</option>
+			<option value="D+">D+</option>
+			<option value="D">D</option>
+			<option value="D-">D-</option>
+			<option value="F">F</option>
+			<option value="NA">No Exam</option>
+		</select>
 
 
-if (((MP3.value=="None")&&(MP4.value=="None")&&(FX.value=="None")) ||
-	((MP1.value=="None")&&(MP2.value=="None")&&(MX.value=="None")))
-	{
- 	if (MP3.value=="None"){MP1grade=convertLetterToNumberGrade(MP1);console.log(MP1grade);
-	MP2grade=convertLetterToNumberGrade(MP2);console.log(MP2grade);
-	MXgrade=convertLetterToNumberGrade(MX);}
-	else{
-	MP1grade=convertLetterToNumberGrade(MP3);console.log(MP1grade);
-	MP2grade=convertLetterToNumberGrade(MP4);console.log(MP2grade);
-	MXgrade=convertLetterToNumberGrade(FX);}
+		<div style="position: fixed; top:440px; left: 55px"> <!-- move the submit buttons to where I want them -->
+			<input type="button" style="font-weight:bold; font-family:Verdana; font-size:15px; padding:5px; margin: 0; border-radius:4px; cursor:pointer" value="Calculate Grade" onclick="gradeCalculator()">
+		</div>
 
-	courseGrade=.4*(MP1grade+MP2grade)+.2*MXgrade;
-	console.log(courseGrade, courseGrade*100);
-	courseGrade = (Math.round(courseGrade*100))/100;
-	console.log(courseGrade);
-	courseLetterGrade=convertNumberToLetterGrade(courseGrade);
+		<div style="position: fixed; top:440px; left: 250px;"> 
+			<input style="font-weight:bold; font-family:Verdana; font-size:15px;  padding:5px; margin: 0; border-radius:4px;cursor:pointer" type="button" value="Clear All Grades" onClick="window.location.reload()">
+		</div>
+	</fieldset>
+	</form>
 
-	myGrade="Semester course grade:  "+courseGrade.toFixed(2)+"   or   "+courseLetterGrade;
+	<!-- Here's the JavaScript to translate the letter grades to numbers, calulate the grade (taking into account if it's a semester or full year course, if a final exam is given or not) and then to translate the numeric grade into a letter grade and then write the text that is the final output and setHTML so it will br printed in the window by HTML. -->
 
+	<script>
+	function gradeCalculator(){ // this is called on submit, when the user has entered their grade choices
+		var MP1=document.getElementById('quarter1');
+		var MP2=document.getElementById('quarter2');
+		var MX=document.getElementById('midterm');
+		var MP3=document.getElementById('quarter3');
+		var MP4=document.getElementById('quarter4');
+		var FX=document.getElementById('final');
+
+		if (((MP3.value=="None")&&(MP4.value=="None")&&(FX.value=="None")) ||
+			((MP1.value=="None")&&(MP2.value=="None")&&(MX.value=="None")))
+			{ 
+			// this is a semester course
+				console.log("MX: ",MX.value, " FX ",FX.value);
+		 	if (MP3.value=="None"){MP1grade=convertLetterToNumberGrade(MP1);console.log(MP1grade); 
+		 		// this is a first semester course
+			MP2grade=convertLetterToNumberGrade(MP2);console.log(MP2grade);
+			MXgrade=convertLetterToNumberGrade(MX);}
+			else{
+				// this is a second semester course
+			MP1grade=convertLetterToNumberGrade(MP3);console.log(MP1grade);
+			MP2grade=convertLetterToNumberGrade(MP4);console.log(MP2grade);
+			MXgrade=convertLetterToNumberGrade(FX);}
+
+			if ((MX.value=="NA") || (FX.value=="NA")) {
+				// this is a semester course and no exam was given
+				courseGrade=.5*(MP1grade+MP2grade);
+				courseGrade=(Math.round(courseGrade*100))/100;
+				courseLetterGrade=convertNumberToLetterGrade(courseGrade);
+				myGrade="Semester course (no exam) grade:  "+courseGrade.toFixed(3)+"   or   "+courseLetterGrade;
+}
+				else {courseGrade=.4*(MP1grade+MP2grade)+.2*MXgrade;
+				    courseGrade=(Math.round(courseGrade*100))/100;
+					courseLetterGrade=convertNumberToLetterGrade(courseGrade);
+					myGrade="Semester course grade:  "+courseGrade.toFixed(3)+"   or   "+courseLetterGrade;}}
+			else {
+			// this is a full year course
+			MP1grade=convertLetterToNumberGrade(MP1);console.log(MP1grade);
+			MP2grade=convertLetterToNumberGrade(MP2);console.log(MP2grade);
+			MP3grade=convertLetterToNumberGrade(MP3);console.log(MP3grade);
+			MP4grade=convertLetterToNumberGrade(MP4);console.log(MP4grade);
+			MXgrade=convertLetterToNumberGrade(MX);console.log(MXgrade);
+
+			if (FX.value == "NA"){FXgrade=MXgrade;}  // double the MX grade
+			else {FXgrade=convertLetterToNumberGrade(FX); console.log("FX: ",FXgrade);}
+
+			courseGrade=.2*(MP1grade+MP2grade+MP3grade+MP4grade)+.1*MXgrade+.1*FXgrade;
+			courseGrade=(Math.round(courseGrade*100))/100;
+			courseLetterGrade = convertNumberToLetterGrade(courseGrade);
+			myGrade="Full Year course grade:  "+courseGrade.toFixed(3)+"   or   "+courseLetterGrade;}
+		document.getElementById("printGrade").innerHTML = myGrade;
 	}
-else{
-	MP1grade=convertLetterToNumberGrade(MP1);console.log(MP1grade);
-	MP2grade=convertLetterToNumberGrade(MP2);console.log(MP2grade);
-	MP3grade=convertLetterToNumberGrade(MP3);console.log(MP3grade);
-	MP4grade=convertLetterToNumberGrade(MP4);console.log(MP4grade);
-	MXgrade=convertLetterToNumberGrade(MX);console.log(MXgrade);
 
-	if (FX.value == "NA"){FXgrade=MXgrade;}
-	else {FXgrade=convertLetterToNumberGrade(FX); console.log(FXgrade);}
+	function convertLetterToNumberGrade(GB){
+		// the name says it all!
+		if (GB.value == "A+") {GBgrade=4.33;}
+		else if (GB.value == "A") {GBgrade=4;}
+		else if (GB.value == "A-") {GBgrade=3.67;}
+		else if (GB.value == "B+") {GBgrade=3.33;}
+		else if (GB.value == "B") {GBgrade=3;}
+		else if (GB.value == "B-") {GBgrade=2.67;}
+		else if (GB.value == "C+") {GBgrade=2.33;}
+		else if (GB.value == "C") {GBgrade=2;}
+		else if (GB.value == "C-") {GBgrade=1.67;}
+		else if (GB.value == "D+") {GBgrade=1.33;}
+		else if (GB.value == "D") {GBgrade=1;}
+		else if (GB.value == "D-") {GBgrade=0.67;}
+		else GBgrade=0;
+		return GBgrade;
+	}
 
-	courseGrade=.2*(MP1grade+MP2grade+MP3grade+MP4grade)+.1*MXgrade+.1*FXgrade;
-	console.log(courseGrade, courseGrade*100);
-	courseGrade = (Math.round(courseGrade*100))/100;
-	console.log(courseGrade);
+	function convertNumberToLetterGrade(cG){ 
+		// the name says it all!
+		if (cG>=4.17){cLG="A+";}
+		else if (cG>=3.83){cLG="A";}
+		else if (cG>=3.5){cLG="A-";}
+		else if (cG>=3.17){cLG="B+";}
+		else if (cG>=2.83){cLG="B";}
+		else if (cG>=2.5){cLG="B-";}
+		else if (cG>=2.17){cLG="C+";}
+		else if (cG>=1.83){cLG="C";}
+		else if (cG>=1.5){cLG="C-";}
+		else if (cG>=1.17){cLG="D+";}
+		else if (cG>=0.83){cLG="D";}
+		else if (cG>=0.67){cLG="D-";}
+		else {cLG="F";}
 
-	courseLetterGrade = convertNumberToLetterGrade(courseGrade);
-	myGrade="Full Year course grade:  "+courseGrade.toFixed(2)+"   or   "+courseLetterGrade;
-
-}
-window.alert(myGrade);
-document.getElementById("demo").innerHTML = myGrade;
-document.write(myGrade);
-}
-
-function convertLetterToNumberGrade(GB){
-	if (GB.value == "A+") {GBgrade=4.33;}
-	else if (GB.value == "A") {GBgrade=4;}
-	else if (GB.value == "A-") {GBgrade=3.67;}
-	else if (GB.value == "B+") {GBgrade=3.33;}
-	else if (GB.value == "B") {GBgrade=3;}
-	else if (GB.value == "B-") {GBgrade=2.67;}
-	else if (GB.value == "C+") {GBgrade=2.33;}
-	else if (GB.value == "C") {GBgrade=2;}
-	else if (GB.value == "C-") {GBgrade=1.7;}
-	else if (GB.value == "D+") {GBgrade=1.33;}
-	else if (GB.value == "D") {GBgrade=1;}
-	else if (GB.value == "D-") {GBgrade=0.67;}
-	else GBgrade=0;
-	return GBgrade;
-}
-
-function convertNumberToLetterGrade(cG){
-	if (cG>=4.17){cLG="A+";}
-	else if (cG>=3.83){cLG="A";}
-	else if (cG>=3.5){cLG="A-";}
-	else if (cG>=3.17){cLG="B+";}
-	else if (cG>=2.83){cLG="B";}
-	else if (cG>=2.5){cLG="B-";}
-	else if (cG>=2.17){cLG="C+";}
-	else if (cG>=1.83){cLG="C";}
-	else if (cG>=1.5){cLG="C-";}
-	else if (cG>=1.17){cLG="D+";}
-	else if (cG>=0.83){cLG="D";}
-	else if (cG>=0.67){cLG="D-";}
-	else {cLG="F";}
-
-	return (cLG);
-}
-</script>
-
-
+		return (cLG);}
+	</script>
+	</body>
 </html>
